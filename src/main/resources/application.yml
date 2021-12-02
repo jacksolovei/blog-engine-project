@@ -1,0 +1,24 @@
+spring.datasource.url: jdbc:${JAWSDB_URL:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf8&serverTimeZone=UTC}
+spring.datasource.username: root
+spring.datasource.password: Khol@1406
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+spring.jpa.hibernate.ddl-auto: validate
+spring.jpa.show-sql: true
+server.port: ${PORT:8080}
+
+spring.mail.host: smtp.gmail.com
+spring.mail.port: 587
+spring.mail.username: devpubnoreply@gmail.com
+spring.mail.password: devpubpassword
+spring.mail.properties.mail.smtp.auth: true
+spring.mail.properties.mail.smtp.starttls.enable: true
+
+upload.path: C:/Users/joewe/Documents/git/blog-engine/BlogEngine/src/main/upload
+
+blog.title: DevPub
+blog.subtitle: Рассказы разработчика
+blog.phone: +7 903 666-44-55
+blog.email: mail@mail.ru
+blog.copyright: Дмитрий Сергеев
+blog.copyrightFrom: 2005
+
