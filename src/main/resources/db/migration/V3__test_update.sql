@@ -1,0 +1,1 @@
+update posts set moderator_id = 1 where moderator_id > 1;

@@ -1,0 +1,1 @@
+insert into posts (id, is_active, moderation_status, moderator_id, title, time, text, view_count, user_id) values (43, 1, 'ACCEPTED', 1, 'title43', '2020-07-09', 'text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 ', 46, 1);

@@ -1,5 +1,4 @@
 *.iml
 .idea/
 target/
-src/main/resources/db/migration/
 /src/main/upload/

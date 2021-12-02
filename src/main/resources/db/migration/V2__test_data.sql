@@ -1,0 +1,17 @@
+insert into users (id, is_moderator, reg_time, name, email, password) values(1, 1, '2019-05-12', 'moderator', 'moderator@devpub.ru', '$2a$12$HVFXsqVgsA/kOn2VmENFuuFkOXm9KxC3SL2aJN3MaMybKlXdbuDbG');
+insert into users (id, is_moderator, reg_time, name, email, password) values(2, 0, '2019-07-09', 'user2', 'user2@devpub.ru', '$2a$12$KdAERgaywhLPUGX7wPgQJOLXYq/wWIZk4qOI./1cXishWUNiySe6C');
+insert into users (id, is_moderator, reg_time, name, email, password) values(3, 0, '2020-02-07', 'user3', 'user3@devpub.ru', '$2a$12$KXRodSPVssCF2WczkDAHM.b0Y/FFsjZuiTv6fQ0lLbOuFTAv72RwK');
+insert into users (id, is_moderator, reg_time, name, email, password) values(4, 0, '2020-06-10', 'user4', 'user4@devpub.ru', '$2a$12$atWiA0qkSWDdjB0fpUrhHuEEDdFmzs116s85uZegmIW0js672m3BS');
+insert into posts (id, is_active, moderator_id, title, time, text, view_count, user_id) values (1, 0, 7, 'title1', '2019-08-23', 'text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 ', 7, 1);
+insert into posts (id, is_active, moderation_status, moderator_id, title, time, text, view_count, user_id) values (2, 1, 'ACCEPTED', 7, 'title2', '2019-06-20', 'text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 ', 8, 1);
+insert into posts (id, is_active, moderator_id, title, time, text, view_count, user_id) values (3, 1, 4, 'title3', '2020-08-29', 'text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 ', 8, 2);
+insert into posts (id, is_active, moderation_status, moderator_id, title, time, text, view_count, user_id) values (4, 1, 'DECLINED', 4, 'title4', '2020-09-23', 'text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 ', 6, 4);
+insert into posts (id, is_active, moderator_id, title, time, text, view_count, user_id) values (5, 1, 5, 'title5', '2020-07-09', 'text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 ', 5, 2);
+insert into posts (id, is_active, moderator_id, title, time, text, view_count, user_id) values (6, 1, 6, 'title6', '2020-06-13', 'text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 text1 ', 45, 3);
+insert into global_settings (id, code, name, value) values (1, 'MULTIUSER_MODE', 'Многопользовательский режим', 'YES');
+insert into global_settings (id, code, name, value) values (2, 'POST_PREMODERATION', 'Премодерация постов', 'YES');
+insert into global_settings (id, code, name, value) values (3, 'STATISTICS_IS_PUBLIC', 'Показывать всем статистику блога', 'YES');
+insert into tags (id, name) values (1, 'java');
+insert into tags (id, name) values (2, 'hibernate');
+insert into tags (id, name) values (3, 'sql');
+insert into tags (id, name) values (4, 'spring');
