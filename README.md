@@ -14,4 +14,4 @@
 Пароли для тестовых пользователей зашифрованы в БД с помощью BCrypt (12 rounds).
 
 ### Ссылка на рабочий проект
-[link](https://blog-engine-soloveva.herokuapp.com/)
+[проект на heroku](https://blog-engine-soloveva.herokuapp.com/)
