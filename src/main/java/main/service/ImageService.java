@@ -4,11 +4,8 @@ import main.api.response.RegResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
+import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +55,7 @@ public class ImageService {
     }
 
     public String uploadImage(MultipartFile image) throws IOException {
-        logger = LoggerFactory.getLogger(ImageService.class);
+        logger = LogManager.getLogger(ImageService.class);
         String random = RandomStringUtils.randomAlphabetic(6);
         StringBuilder pathToImage = new StringBuilder();
         pathToImage

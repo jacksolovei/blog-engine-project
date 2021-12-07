@@ -12,7 +12,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +38,6 @@ public class UserService {
     public static final int MAX_LENGTH = 255;
     public static final int PROFILE_IMG_SIZE = 36;
     public static final PasswordEncoder BCRYPT = new BCryptPasswordEncoder(12);
-    //private static Logger logger;
     private static Logger logger;
 
     @Value("${upload.path}")
@@ -65,7 +63,6 @@ public class UserService {
             Principal principal,
             MultipartFile photo, String name, String email,
             String password) throws IOException {
-        //logger = LoggerFactory.getLogger(UserService.class);
         logger = LogManager.getLogger(UserService.class);
         RegResponse regResponse = new RegResponse();
         User user = apiPostService.getAuthorizedUser(principal);
@@ -95,6 +92,7 @@ public class UserService {
                 logger.info("Path to upload: " + toFile);
                 Path path = Paths.get(toFile);
                 if (!path.toFile().exists()) {
+                    logger.info("File will be created");
                     Files.createDirectories(path.getParent());
                     Files.createFile(path);
                     logger.info("New file is created: " + path);
