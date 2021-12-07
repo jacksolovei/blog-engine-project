@@ -9,7 +9,10 @@ import main.model.User;
 import main.repository.PostRepository;
 import main.repository.UserRepository;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.logging.log4j.LogManager;
 import org.imgscalr.Scalr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +39,7 @@ public class UserService {
     public static final int MAX_LENGTH = 255;
     public static final int PROFILE_IMG_SIZE = 36;
     public static final PasswordEncoder BCRYPT = new BCryptPasswordEncoder(12);
+    private static Logger logger;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -60,6 +64,7 @@ public class UserService {
             Principal principal,
             MultipartFile photo, String name, String email,
             String password) throws IOException {
+        logger = LoggerFactory.getLogger(UserService.class);
         RegResponse regResponse = new RegResponse();
         User user = apiPostService.getAuthorizedUser(principal);
         Map<String, String> errors = new HashMap<>();
@@ -77,20 +82,30 @@ public class UserService {
             errors.put("password", "Пароль короче 6-ти символов");
         }
         if (errors.isEmpty()) {
-            BufferedImage bufferedImage = ImageIO.read(photo.getInputStream());
-            BufferedImage resultImage = Scalr.resize(bufferedImage,
-                    Scalr.Method.QUALITY,
-                    PROFILE_IMG_SIZE,
-                    PROFILE_IMG_SIZE);
-            String toFile = uploadPath + "/" + user.getId() + "/" + photo.getOriginalFilename();
-            Path path = Paths.get(toFile);
-            if (!path.toFile().exists()) {
-                Files.createDirectories(path.getParent());
-                Files.createFile(path);
-                String extension = FilenameUtils.getExtension(photo.getOriginalFilename());
-                ImageIO.write(resultImage, extension, path.toFile());
+            try {
+                BufferedImage bufferedImage = ImageIO.read(photo.getInputStream());
+                logger.info("Image " + photo.getOriginalFilename() + " is read");
+                BufferedImage resultImage = Scalr.resize(bufferedImage,
+                        Scalr.Method.QUALITY,
+                        PROFILE_IMG_SIZE,
+                        PROFILE_IMG_SIZE);
+                String toFile = uploadPath + "/" + user.getId() + "/" + photo.getOriginalFilename();
+                logger.info("Path to upload: " + toFile);
+                Path path = Paths.get(toFile);
+                if (!path.toFile().exists()) {
+                    Files.createDirectories(path.getParent());
+                    Files.createFile(path);
+                    logger.info("New file is created: " + path);
+                    String extension = FilenameUtils.getExtension(photo.getOriginalFilename());
+                    ImageIO.write(resultImage, extension, path.toFile());
+                    logger.info("Image is written to file " + path);
+                }
+                user.setPhoto(toFile.substring(toFile.lastIndexOf("/upload")));
+                logger.info("Image " + toFile.substring(toFile.lastIndexOf("/upload")) + " is set to user " + user.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error(e.getMessage());
             }
-            user.setPhoto(toFile.substring(toFile.lastIndexOf("/upload")));
             if (!user.getName().equals(name)) {
                 user.setName(name);
             }
