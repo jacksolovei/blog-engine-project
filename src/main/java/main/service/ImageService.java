@@ -23,7 +23,7 @@ import java.util.Map;
 public class ImageService {
     private static Logger logger;
 
-    public static final long IMAGE_MAX_SIZE = 1024 * 1024;
+    public static final long IMAGE_MAX_SIZE = 5 * 1024 * 1024;
     public static final int NEW_WIDTH = 500;
 
     @Value("${upload.path}")
@@ -34,10 +34,12 @@ public class ImageService {
         if (image.getSize() > IMAGE_MAX_SIZE) {
             errors.put("image",
                     "Размер файла превышает допустимый размер");
+            logger.error("Photo size is too large: " + image.getSize()+ " bytes");
         }
         String extension = FilenameUtils.getExtension(image.getOriginalFilename());
         if (!extension.equals("jpg") && !extension.equals("png")) {
             errors.put("format", "Неверный формат файла");
+            logger.error("Wrong extension: " + extension);
         }
         return errors;
     }

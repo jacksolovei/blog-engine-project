@@ -73,6 +73,7 @@ public class UserService {
         if (photo.getSize() > PHOTO_MAX_SIZE) {
             errors.put("photo",
                     "Фото слишком большое, нужно не более 5 Мб");
+            logger.error("Photo size is too large: " + photo.getSize() + " bytes");
         }
         if (name.length() > MAX_LENGTH || !name.matches("[А-Яа-яA-Za-z]+([А-Яа-яA-Za-z\\s]+)?")) {
             errors.put("name", "Имя указано неверно");
