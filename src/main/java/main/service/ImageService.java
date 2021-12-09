@@ -95,6 +95,6 @@ public class ImageService {
             logger.error(e.getMessage());
         }
         String load = pathToImage.toString();
-        return load.substring(load.lastIndexOf("/upload"));
+        return "/" + load.substring(load.lastIndexOf("upload"));
     }
 }

@@ -101,8 +101,8 @@ public class UserService {
                     ImageIO.write(resultImage, extension, path.toFile());
                     logger.info("Image is written to file " + path);
                 }
-                user.setPhoto(toFile.substring(toFile.lastIndexOf("/upload")));
-                logger.info("Image " + toFile.substring(toFile.lastIndexOf("/upload")) + " is set to user " + user.getId());
+                user.setPhoto("/" + toFile.substring(toFile.lastIndexOf("upload")));
+                logger.info("Image /" + toFile.substring(toFile.lastIndexOf("upload")) + " is set to user " + user.getId());
             } catch (Exception e) {
                 e.printStackTrace();
                 logger.error(e.getMessage());
