@@ -3,3 +3,4 @@
 target/
 /src/main/upload/
 logs/
+upload/
