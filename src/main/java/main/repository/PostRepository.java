@@ -99,7 +99,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "SELECT * FROM posts WHERE is_active = 1 " +
             "AND moderation_status = 'ACCEPTED' AND time <= NOW() " +
             "AND DATE_FORMAT(posts.time, '%Y-%m-%d') = :date " +
-            "ORDER BY DATE_FORMAT(posts.time, '%Y-%m-%d') DESC",
+            "ORDER BY posts.time DESC",
             nativeQuery = true,
             countQuery = "SELECT COUNT(*) FROM posts WHERE is_active = 1 " +
                     "AND moderation_status = 'ACCEPTED' AND time <= NOW() " +
@@ -110,7 +110,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             "JOIN tag2post ON posts.id = tag2post.post_id " +
             "JOIN tags ON tags.id = tag2post.tag_id WHERE is_active = 1 " +
             "AND moderation_status = 'ACCEPTED' AND posts.time <= NOW() " +
-            "AND tags.name = :tag",
+            "AND tags.name = :tag ORDER BY posts.time DESC",
             nativeQuery = true,
             countQuery = "SELECT COUNT(*) FROM posts " +
                     "JOIN tag2post ON posts.id = tag2post.post_id " +

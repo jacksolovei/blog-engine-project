@@ -16,8 +16,6 @@ spring.mail.password: devpubpassword
 spring.mail.properties.mail.smtp.auth: true
 spring.mail.properties.mail.smtp.starttls.enable: true
 
-upload.path: upload
-
 blog.title: DevPub
 blog.subtitle: Рассказы разработчика
 blog.phone: +7 903 666-44-55

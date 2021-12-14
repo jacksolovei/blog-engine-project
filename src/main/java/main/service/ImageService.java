@@ -6,7 +6,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,15 +25,12 @@ public class ImageService {
     public static final long IMAGE_MAX_SIZE = 5 * 1024 * 1024;
     public static final int NEW_WIDTH = 500;
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
     public Map<String, String> getErrors(MultipartFile image) {
         Map<String, String> errors = new HashMap<>();
         if (image.getSize() > IMAGE_MAX_SIZE) {
             errors.put("image",
                     "Размер файла превышает допустимый размер");
-            logger.error("Photo size is too large: " + image.getSize()+ " bytes");
+            logger.error("Photo size is too large: " + image.getSize() + " bytes");
         }
         String extension = FilenameUtils.getExtension(image.getOriginalFilename());
         if (!extension.equals("jpg") && !extension.equals("png")) {
@@ -61,8 +57,7 @@ public class ImageService {
         String random = RandomStringUtils.randomAlphabetic(6);
         StringBuilder pathToImage = new StringBuilder();
         pathToImage
-                .append(uploadPath)
-                .append("/")
+                .append("upload/")
                 .append(random, 0, 2)
                 .append("/")
                 .append(random, 2, 4)
@@ -78,17 +73,20 @@ public class ImageService {
             BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
             int height = bufferedImage.getHeight();
             int width = bufferedImage.getWidth();
-            logger.info("Image " + image.getOriginalFilename() + " (size " + height + " * " + width + ") is read");
+            logger.info("Image " + image.getOriginalFilename() +
+                    " (size " + height + " * " + width + ") is read");
             String extension = FilenameUtils.getExtension(image.getOriginalFilename());
             if (width <= NEW_WIDTH) {
                 ImageIO.write(bufferedImage, extension, path.toFile());
-                logger.info("Image with size " + width + " * " + height + " is written with name " + image.getOriginalFilename());
+                logger.info("Image with size " + width + " * " + height +
+                        " is written with name " + image.getOriginalFilename());
             } else {
                 int newHeight = (int) Math.round(height / (double) (width / NEW_WIDTH));
                 BufferedImage resultImage = Scalr.resize(
                         bufferedImage, Scalr.Method.QUALITY, NEW_WIDTH, newHeight);
                 ImageIO.write(resultImage, extension, path.toFile());
-                logger.info("Image with size " + NEW_WIDTH  + " * " + newHeight + " is written to file  " + path);
+                logger.info("Image with size " + NEW_WIDTH + " * " +
+                        newHeight + " is written to file  " + path);
             }
         } catch (Exception e) {
             e.printStackTrace();

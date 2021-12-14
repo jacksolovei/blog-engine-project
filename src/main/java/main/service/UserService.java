@@ -1,5 +1,6 @@
 package main.service;
 
+import lombok.AllArgsConstructor;
 import main.api.request.ProfileRequest;
 import main.api.response.RegResponse;
 import main.api.response.SettingsResponse;
@@ -12,7 +13,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.imgscalr.Scalr;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class UserService {
     public static final long PHOTO_MAX_SIZE = 5 * 1024 * 1024;
     public static final int PASSWORD_LENGTH = 6;
@@ -40,24 +41,11 @@ public class UserService {
     public static final PasswordEncoder BCRYPT = new BCryptPasswordEncoder(12);
     private static Logger logger;
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final ApiPostService apiPostService;
     private final MapperService mapperService;
     private final SettingsService settingsService;
-
-    public UserService(UserRepository userRepository, PostRepository postRepository,
-                       ApiPostService apiPostService, MapperService mapperService,
-                       SettingsService settingsService) {
-        this.userRepository = userRepository;
-        this.postRepository = postRepository;
-        this.apiPostService = apiPostService;
-        this.mapperService = mapperService;
-        this.settingsService = settingsService;
-    }
 
     public RegResponse editImage(
             Principal principal,
@@ -89,7 +77,7 @@ public class UserService {
                         Scalr.Method.QUALITY,
                         PROFILE_IMG_SIZE,
                         PROFILE_IMG_SIZE);
-                String toFile = uploadPath + "/" + user.getId() + "/" + photo.getOriginalFilename();
+                String toFile = "upload/" + user.getId() + "/" + photo.getOriginalFilename();
                 logger.info("Path to upload: " + toFile);
                 Path path = Paths.get(toFile);
                 if (!path.toFile().exists()) {
@@ -102,7 +90,8 @@ public class UserService {
                     logger.info("Image is written to file " + path);
                 }
                 user.setPhoto("/" + toFile.substring(toFile.lastIndexOf("upload")));
-                logger.info("Image /" + toFile.substring(toFile.lastIndexOf("upload")) + " is set to user " + user.getId());
+                logger.info("Image /" + toFile.substring(toFile.lastIndexOf("upload")) +
+                        " is set to user " + user.getId());
             } catch (Exception e) {
                 e.printStackTrace();
                 logger.error(e.getMessage());
